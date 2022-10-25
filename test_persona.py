@@ -21,8 +21,7 @@ class Test_Persona(unittest.TestCase):
         self.assertEqual(self.DB.personas["104"], "Tortuga Manuelita")
         self.DB.clean_DB()
         with open(self.DB.DB) as Data:
-            for line in Data.readlines():
-                self.assertEqual(line, "")
+            self.assertEqual(Data.readlines(), [])
 
     def test_01_add_user(self):
         self.assertTrue(self.DB.add_users("001", "Mirtha", "Lagrande"))
@@ -34,15 +33,18 @@ class Test_Persona(unittest.TestCase):
     def test_03_not_user(self):
         with self.assertRaises(ValueError):
             self.DB.add_users("", "Hermana", "Lagrande")
+        with self.assertRaises(ValueError):
             self.DB.add_users("002", "", "Lagrande")
+        with self.assertRaises(ValueError):
             self.DB.add_users("003", "Hermana", "")
     
     def test_04_not_user(self):
         with self.assertRaises(ValueError):
             self.DB.add_users("numerito", "Hermana", "Lagrande")
+        with self.assertRaises(ValueError):
             self.DB.add_users("002", "HERMANA", "Lagrande")
+        with self.assertRaises(ValueError):
             self.DB.add_users("003", "Hermana", "legrande")
-
     
     def test_06_users_in_DB(self):
         self.DB.users_in_DB()
@@ -63,7 +65,5 @@ class Test_Persona(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.DB.delete_users("001")
 
-
-
-if __name__ == "__main__": 
+if __name__ == "__main__":  # pragma: no cover
     unittest.main()
